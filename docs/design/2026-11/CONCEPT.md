@@ -361,7 +361,7 @@ The order. The next version after 0.1.1 builds the first three; the rest is the 
 - The ledger is phase 5.
 - A public set harder than HumanEval, which current cheap cloud models saturate.
 
-**Open in the harness after 0.1.9:**
+**Open in the harness after 0.1.9:** the assessment of 2026-11-21 (two independent reviews of the engine and of the provider layer, and the recorded runs read step by step) and its plan, in phases with what each item is done by, are in [docs/IMPROVEMENT-PLAN.md](../../IMPROVEMENT-PLAN.md); it holds the decisions that are the author's. The items below stay as they were written.
 
 - The Ralph Loop does one turn on a task with no plan file and never hears the measured check: on GSM8K it passed 2 of 5 with gpt-4.1-mini and 3 of 5 with gpt-5.4-nano, where the model asked directly passed 5 of 5. Whether the baseline should go round again on a failed check is the author's question, since it changes what the baseline is.
 - A model without reasoning can still write a result before it works it out, whatever Do's prompt says.
