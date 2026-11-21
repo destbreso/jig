@@ -205,6 +205,8 @@ Your `~/.config/jig/config.json` names your provider entries, and a key is alway
 
 A key is `env:NAME`, `keychain` (your OS keychain; `jig providers add claude --kind anthropic --keychain` asks for it, hidden) or `command:<program>` (`command:op read op://dev/anthropic/key`, run without a shell). A role names a model as `<entry>/<model>`, or a brain; on a brain it falls back along the chain only when a provider is unavailable, and the screen marks it with ↪. `jig doctor` shows each provider, whether its key is there (never the key), and which model each brain would answer with now.
 
+A preset is a known OpenAI-compatible server, named by itself: `lmstudio`, `llamacpp`, `vllm` and `jan` on this machine, and `groq`, `mistral`, `deepseek`, `together` and `nvidia` in the cloud, each reading its key from its own variable (`NVIDIA_API_KEY` for `nvidia`). `"nvidia": {}` in `providers` is enough, and jig-benchmark takes `nvidia/<model>` with no entry at all. NVIDIA's API catalog (build.nvidia.com) gives a free key for prototyping, rate-limited, and not every model there calls tools: try one before you give it a role that needs them (`jig providers test nvidia --model <model>`).
+
 ### Permissions
 
 Jig decides every tool call a role makes before it runs: what is safe runs, and the rest asks you first.

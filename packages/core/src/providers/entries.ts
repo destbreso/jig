@@ -48,6 +48,8 @@ export const PRESETS: Record<string, { baseUrl: string; keyEnv?: string; label: 
   mistral: { baseUrl: "https://api.mistral.ai/v1", keyEnv: "MISTRAL_API_KEY", label: "Mistral" },
   deepseek: { baseUrl: "https://api.deepseek.com/v1", keyEnv: "DEEPSEEK_API_KEY", label: "DeepSeek" },
   together: { baseUrl: "https://api.together.xyz/v1", keyEnv: "TOGETHER_API_KEY", label: "Together" },
+  // NVIDIA's API catalog (build.nvidia.com): hosted models with a free key for prototyping, rate-limited.
+  nvidia: { baseUrl: "https://integrate.api.nvidia.com/v1", keyEnv: "NVIDIA_API_KEY", label: "NVIDIA API catalog" },
 };
 
 /** Where each kind is when an entry names no base URL, and the variable its key usually lives in. */
@@ -202,8 +204,8 @@ export async function resolveKey(
   return { ...(key ? { key } : {}), source, warnings };
 }
 
-/** Whether a kind cannot be called without a key. */
-export const needsKey = (entry: ProviderEntry): boolean => NEEDS_KEY.has(entry.kind);
+/** Whether an entry cannot be called without a key: a cloud kind, or a preset of a cloud server (it names its key's variable). */
+export const needsKey = (entry: ProviderEntry): boolean => NEEDS_KEY.has(entry.kind) || Boolean(entry.preset && PRESETS[entry.preset]?.keyEnv);
 
 const baseOf = (entry: ProviderEntry) => entry.baseUrl ?? KIND_DEFAULTS[entry.kind].baseUrl;
 

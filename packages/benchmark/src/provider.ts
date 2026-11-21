@@ -10,6 +10,7 @@ import {
   ENTRY_KINDS,
   entriesOf,
   entryProvider,
+  PRESETS,
   listEntryModels,
   loadConfig,
   needsKey,
@@ -37,6 +38,8 @@ export async function providerFor(ref: string, configDir: string): Promise<Model
   const config = await loadConfig(configDir);
   const entries = entriesOf({ ...(config.providers as unknown as Record<string, Record<string, unknown>>) });
   let entry = entries.find((e) => e.name === name);
+  // A preset's name works with no entry configured, as a kind's does: nvidia/<model> reads NVIDIA_API_KEY.
+  if (!entry && PRESETS[name]) entry = entriesOf({ [name]: {} })[0];
   if (!entry && (ENTRY_KINDS as readonly string[]).includes(name)) {
     entry = { name, kind: name as ProviderEntry["kind"], ...(name === "ollama" && ollamaPort() ? { baseUrl: `http://127.0.0.1:${ollamaPort()}` } : {}) };
   }

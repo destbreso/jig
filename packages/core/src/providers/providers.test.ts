@@ -8,7 +8,7 @@ import { createServer, type Server } from "node:http";
 import { mkdtemp, readdir, readFile, rm, writeFile, chmod } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { entriesOf, entryProvider, listEntryModels, resolveKey, splitCommand, testEntry, type ProviderEntry } from "./entries.js";
+import { entriesOf, entryProvider, listEntryModels, needsKey, resolveKey, splitCommand, testEntry, type ProviderEntry } from "./entries.js";
 import { chainOf, chainProvider, defaultBrains, unavailability, UnavailableModel, type Fallback } from "./brains.js";
 import { clearSecrets, redact } from "./secrets.js";
 import { ModelCallTimeoutError } from "./call-limits.js";
@@ -61,6 +61,12 @@ describe("provider entries", () => {
       ["studio", "openai-compatible", "http://localhost:1234/v1", ""],
       ["google", "gemini", "", ""],
     ]);
+  });
+
+  it("needs a key for a cloud kind and a cloud server's preset, NVIDIA's API catalog among them, and none for a local server", () => {
+    const [groq, studio, nvidia, ollama] = entriesOf({ groq: {}, studio: { preset: "lmstudio" }, nvidia: {}, ollama: {} });
+    expect(nvidia).toMatchObject({ kind: "openai-compatible", baseUrl: "https://integrate.api.nvidia.com/v1", key: "env:NVIDIA_API_KEY" });
+    expect([groq, studio, nvidia, ollama].map(needsKey)).toEqual([true, false, true, false]);
   });
 
   it("splits a helper's command line without a shell, quotes respected", () => {

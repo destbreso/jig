@@ -213,7 +213,7 @@ program
   .command("providers [action] [names...]")
   .description("Provider entries: list, discover (this machine's model servers, 127.0.0.1 only), add <name>, test [names], remove <name>. Keys are references, never written in clear")
   .option("--kind <kind>", "For add: ollama, anthropic, openai, gemini, openrouter or openai-compatible")
-  .option("--preset <name>", "For add: an openai-compatible server Jig knows (lmstudio, llamacpp, vllm, jan, groq, mistral, deepseek, together)")
+  .option("--preset <name>", "For add: an openai-compatible server Jig knows (lmstudio, llamacpp, vllm, jan, groq, mistral, deepseek, together, nvidia)")
   .option("--base-url <url>", "For add: where the server is")
   .option("--key <ref>", "For add: env:NAME or command:<program and arguments>")
   .option("--keychain", "For add: type the key, hidden, and keep it in the OS keychain")
