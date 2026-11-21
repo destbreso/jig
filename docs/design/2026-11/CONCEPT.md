@@ -369,6 +369,7 @@ The order. The next version after 0.1.1 builds the first three; the rest is the 
 - A solution that calls `os._exit(0)` itself still passes HumanEval's check.
 - Text that follows a tool call in a reply is kept but not streamed to the console.
 - A pass of every topology on a local 7B model takes hours on an Apple M4 (one Supervised Coder attempt took 640 s): the local pass needs a smaller spec.
+- **NVIDIA's models, configured (the author, 2026-11-20: "para no gastar apikeys").** The `nvidia` preset reaches build.nvidia.com's hosted models with a free key, and nothing past that is done or tried: no key yet. To do, in order: the author's key in `NVIDIA_API_KEY`; the provider probe (a short reply, streaming, a two-step tool chain with and without streaming) over the catalog's models, to learn which call tools reliably, since NVIDIA documents it per model; a default model for the preset, chosen from that probe and never from a list written by hand; pacing for the free tier's limit (about 40 requests a minute by the forums, unconfirmed): the benchmark at `concurrency: 1` and a wait that honours the 429's retry-after; whether its models write tool calls as text (the Qwen and Hermes families are in the catalog), which the text protocol today handles only through Ollama; then a pass of every topology on the models that pass the probe.
 
 What follows is the plan this phase had inside Jig; it moves to jig-benchmark as it stands.
 
